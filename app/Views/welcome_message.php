@@ -209,6 +209,7 @@
                 <button onclick="toggleMenu();">&#9776;</button>
             </li>
             <li class="menu-item hidden"><a href="https://mi-linux.wlv.ac.uk/~2038025/myapp/public/">HOME</a></li>
+            <li class="menu-item hidden"><a href="https://mi-linux.wlv.ac.uk/~2038025/myapp/public/news">News</a></li>
             <li class="menu-item hidden"><a href="https://mi-linux.wlv.ac.uk/~2038025/myapp/public/pages">Pages</a></li>
             <li class="menu-item hidden"><a href="https://mi-linux.wlv.ac.uk/~2038025/myapp/public/home">Home</a></li>
             <li class="menu-item hidden"><a href="https://mi-linux.wlv.ac.uk/~2038025/myapp/public/about">About</a></li>
