@@ -1,0 +1,24 @@
+<!-- Install codeigniter4 -->
+composer create-project codeigniter4/appstarter myapp
+<!-- nano app/Config/App.php
+nano app/Config/Database.php -->
+<!-- nano app/Config/Routes.php
+nano app/Controllers/Home.php
+nano app/Views/welcome_message.php
+nano app/Views/about.php
+nano app/Views/contact.php
+nano app/Views/home.php
+nano app/Views/templates/header.php
+nano app/Views/templates/footer.php
+nano app/Views/templates/menu.php
+nano app/Views/templates/sidebar.php
+nano app/Views/templates/content.php
+nano app/Views/templates/footer.php -->
+
+<!-- Create writable folder -->
+chmod 777 myapp/writable/ -R
+
+<!-- Run the server -->
+php spark serve
+
+php spark serve --host ssh mi-linux.wlv.ac.uk -p 80
