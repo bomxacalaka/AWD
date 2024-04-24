@@ -7,6 +7,7 @@ use App\Controllers\Pages;
 /**
  * @var RouteCollection $routes
  */
+
 $routes->get('/', 'Home::index');
 
 $routes->get('news', [News::class, 'index']);

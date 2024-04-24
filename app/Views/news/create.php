@@ -3,7 +3,7 @@
 <?= session()->getFlashdata('error') ?>
 <?= validation_list_errors() ?>
 
-<form action="/~2038025/myapp/public/news" method="post">
+<form action="/news" method="post">
     <?= csrf_field() ?>
 
     <label for="title">Title</label>

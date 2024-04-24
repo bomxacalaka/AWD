@@ -208,12 +208,12 @@
             <li class="menu-toggle">
                 <button onclick="toggleMenu();">&#9776;</button>
             </li>
-            <li class="menu-item hidden"><a href="https://mi-linux.wlv.ac.uk/~2038025/myapp/public/">HOME</a></li>
-            <li class="menu-item hidden"><a href="https://mi-linux.wlv.ac.uk/~2038025/myapp/public/news">News</a></li>
-            <li class="menu-item hidden"><a href="https://mi-linux.wlv.ac.uk/~2038025/myapp/public/pages">Pages</a></li>
-            <li class="menu-item hidden"><a href="https://mi-linux.wlv.ac.uk/~2038025/myapp/public/home">Home</a></li>
-            <li class="menu-item hidden"><a href="https://mi-linux.wlv.ac.uk/~2038025/myapp/public/about">About</a></li>
-            <li class="menu-item hidden"><a href="https://mi-linux.wlv.ac.uk/~2038025/myapp/public/shop">Shop</a></li>
+            <li class="menu-item hidden"><a href="https://h.drbom.net/">HOME</a></li>
+            <li class="menu-item hidden"><a href="https://h.drbom.net/news">News</a></li>
+            <li class="menu-item hidden"><a href="https://h.drbom.net/pages">Pages</a></li>
+            <li class="menu-item hidden"><a href="https://h.drbom.net/home">Home</a></li>
+            <li class="menu-item hidden"><a href="https://h.drbom.net/about">About</a></li>
+            <li class="menu-item hidden"><a href="https://h.drbom.net/shop">Shop</a></li>
             <li class="menu-item hidden"> <p>|</p> </li>
             <li class="menu-item hidden"><a href="#">Home</a></li>
             <li class="menu-item hidden"><a href="https://codeigniter4.github.io/userguide/" target="_blank">Docs</a>

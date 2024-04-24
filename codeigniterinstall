@@ -21,4 +21,4 @@ chmod 777 myapp/writable/ -R
 <!-- Run the server -->
 php spark serve
 
-php spark serve --host ssh mi-linux.wlv.ac.uk -p 80
+php spark serve --host ssh h.drbom.net -p 80

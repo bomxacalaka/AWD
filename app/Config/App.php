@@ -16,7 +16,8 @@ class App extends BaseConfig
      *
      *    http://example.com/
      */
-    public string $baseURL = 'https://mi-linux.wlv.ac.uk/~2038025/myapp/index.html/pages';
+    // public string $baseURL = 'https://mi-linux.wlv.ac.uk/~2038025/myapp/index.html/pages';
+    public string $baseURL = 'https://h.drbom.net/';
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
@@ -155,7 +156,10 @@ class App extends BaseConfig
      *
      * @var array<string, string>
      */
-    public array $proxyIPs = [];
+    public array $proxyIPs = [
+        '92.12.82.47' => 'X-Forwarded-For', // Assuming this is the IP address of your Nginx server
+        '192.168.1.100' => 'X-Forwarded-For', // Assuming this is the IP address of your machine
+    ];
 
     /**
      * --------------------------------------------------------------------------
