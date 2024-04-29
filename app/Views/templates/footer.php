@@ -9,6 +9,7 @@
       flex-direction: column;
       min-height: 100vh;
       margin: 0;
+      overflow-x: hidden;
     }
     .container-fluid {
   margin: 0; /* Add this line to remove default margin */
@@ -36,7 +37,7 @@
             <!-- Social media icons -->
             <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
                 class="fab fa-facebook-f"></i></a>
-            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i class="fab fa-twitter"></i></a>
+            <a class="btn btn-outline-light " href="#!" role="button"><i class="fab fa-twitter"></i></a>
             <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i class="fab fa-google"></i></a>
             <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
                 class="fab fa-instagram"></i></a>

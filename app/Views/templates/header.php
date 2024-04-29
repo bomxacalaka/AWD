@@ -4,14 +4,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="https://h.drbom.net/logo" type="image/svg+xml">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
-    .navbar {
-      border-bottom: 1px solid #444;
-      /* Add this line to create a thin line below the navbar */
+    /*
+        body {
+      overflow-x: hidden;
     }
+
 
     .container {
       margin-top: 20px;
@@ -46,15 +48,6 @@
       font-size: 16px;
     }
 
-    .btn {
-      padding: 10px 20px;
-      border: none;
-      background-color: #4CAF50;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
     .file-label {
       padding: 10px 20px;
       background-color: #4CAF50;
@@ -62,20 +55,39 @@
       border-radius: 5px;
       cursor: pointer;
     }
+    */
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-    .bg-black {
-      background-color: #000;
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      border-bottom: 1px solid #444;
     }
   </style>
+
 </head>
 
 <body>
+
+
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-black">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
-        <i class="fab fa-github fa-2x mx-3 ps-1"></i>
+        <img src="https://h.drbom.net/logo" alt="Logo" width="40" height="40" style="border-radius: 50%;">
       </a>
+
+
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars"></i>
