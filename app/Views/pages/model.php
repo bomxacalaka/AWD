@@ -1,5 +1,5 @@
 
-    <title>My Home Page</title>
+<title>Models</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -30,8 +30,10 @@
 <body>
     <div class="container">
         <h1>Welcome to My Home Page</h1>
-        <p>This is a sample home page created using PHP.</p>
+        <p>Leaked OnlyRNN models for free:</p>
+        <a href="<?= site_url('download') ?>">20 epochs on IMBD</a>
     </div>
+
 </body>
 
 <!-- 

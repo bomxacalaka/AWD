@@ -1,7 +1,6 @@
 <!doctype html>
 <html>
 <head>
-    <title>CodeIgniter Tutorial</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <style>
@@ -85,13 +84,13 @@
       <!-- Left links -->
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active d-flex flex-column text-center" aria-current="page" href="#"><i class="fas fa-home fa-lg"></i><span class="small">Home</span></a>
+          <a class="nav-link active d-flex flex-column text-center" aria-current="page" href="https://h.drbom.net/home"><i class="fas fa-home fa-lg"></i><span class="small">Home</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link d-flex flex-column text-center" aria-current="page" href="#"><i class="fas fa-user-friends fa-lg"></i><span class="small">My Network</span></a>
+          <a class="nav-link d-flex flex-column text-center" aria-current="page" href="https://h.drbom.net/upload_form"><i class="fas fa-user-friends fa-lg"></i><span class="small">Upload</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link d-flex flex-column text-center" aria-current="page" href="#"><i class="fas fa-briefcase fa-lg"></i><span class="small">Jobs</span></a>
+          <a class="nav-link d-flex flex-column text-center" aria-current="page" href="https://h.drbom.net/model"><i class="fas fa-briefcase fa-lg"></i><span class="small">Models</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link d-flex flex-column text-center" aria-current="page" href="#"><i class="fas fa-comment-dots fa-lg"></i><span class="small">Messaging</span></a>
@@ -134,3 +133,9 @@
         <!-- <h1><?= esc($title) ?></h1>
         <li class="menu-item hidden"><a href="https://h.drbom.net/news/new">Create</a></li> -->
     </header>
+
+    add new lines
+    <div class="container">
+        <h1>Welcome to My Home Page</h1>
+        <p>This is a sample home page created using PHP.</p>
+    </div>
