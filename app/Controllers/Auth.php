@@ -60,7 +60,7 @@ class Auth extends BaseController
         // return view('auth/login');
         // return view('form/index', $data);
 
-        $data['title'] = "LoginForm";
+        $data['title'] = "Login";
 
         return view('templates/header', $data)
         . view('auth/login')
@@ -79,30 +79,30 @@ class Auth extends BaseController
             'userName' => [
                 'rules' => 'required',
                 'errors' => [
-                    'required' => "Username Field Required"
+                    'required' => "If 47 has a name, so should you"
                 ]
             ],
             'email' => [
                 'rules' => 'required|valid_email|is_unique[user_usr.email_usr]',
                 'errors' => [
-                    'required' => "Email Field Required",
-                    'valid_email' => "Please add a valid email",
-                    'is_unique' => "Email already exists",
+                    'required' => "Without an email, how do we spam you?",
+                    'valid_email' => "Make it legit, enter a valid email address",
+                    'is_unique' => "So much for creativity, this email already exists",
                 ]
             ],
             'password' => [
                 'rules' => 'required|min_length[10]|max_length[255]',
                 'errors' => [
-                    'required' => "Password Field Required",
-                    'min_length' => "Password must be at least 10 characters long",
-                    'max_length' => "Password cannot exceed 255 characters"
+                    'required' => "I mean, you need a password to login right?",
+                    'min_length' => "10 inches is the minimum length for a password",
+                    'max_length' => "Trying to make up for something? 255 max length for password"
                 ]
             ],
             'confirmPassword' => [
                 'rules' => 'required|max_length[255]|matches[password]',
                 'errors' => [
-                    'required' => "Confirm Password Field Required",
-                    'matches' => "Password does not match"
+                    'required' => "Same drill, just confirm the password",
+                    'matches' => "Just copy paste the password from above",
                 ]
             ],
         ]);
@@ -142,15 +142,15 @@ class Auth extends BaseController
             'email' => [
                 'rules' => 'required|valid_email|is_not_unique[user_usr.email_usr]',
                 'errors' => [
-                    'required' => "Email Field Required",
-                    'valid_email' => "Not a valid email",
-                    'is_not_unique' => "Email not registered",
+                    'required' => "Email Field Required buddy",
+                    'valid_email' => "Huh? That's not an email address",
+                    'is_not_unique' => "Never seen you before, please register first",
                 ]
             ],
             'password' => [
                 'rules' => 'required',
                 'errors' => [
-                    'required' => "Password Field Required"
+                    'required' => "Like seriously, you need a password to login"
                 ]
             ],
         ]);

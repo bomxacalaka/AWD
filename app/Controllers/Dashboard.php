@@ -14,7 +14,11 @@ class Dashboard extends BaseController
             'title' => "Dashboard",
             'name' => $userInfo['firstname_usr'],
         ];
-        return view('dashboard/index', $data);
+
+        // Load views with header and footer
+        return view('templates/header', $data)
+            . view('dashboard/index', $data)
+            . view('templates/footer', $data);
     }
 
     public function profile()
@@ -26,6 +30,10 @@ class Dashboard extends BaseController
             'title' => "Profile",
             'name' => $userInfo['firstname_usr'],
         ];
-        return view('dashboard/profile', $data);
+
+        // Load views with header and footer
+        return view('templates/header', $data)
+            . view('dashboard/profile', $data)
+            . view('templates/footer', $data);
     }
 }

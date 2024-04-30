@@ -1,4 +1,7 @@
 <!-- Add some space above the footer -->
+</div>
+  </div>
+</body>
 <div style="height: 50px;"></div>
 
 <head>
