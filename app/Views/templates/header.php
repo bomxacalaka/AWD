@@ -83,7 +83,7 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-black">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="/">
         <img src="https://h.drbom.net/logo" alt="Logo" width="40" height="40" style="border-radius: 50%;">
       </a>
 
@@ -100,11 +100,11 @@
           </div>
         </form>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pull request</a>
+        <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Issues</a>
+            <a class="nav-link" href="/model">Models</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Marketplace</a>
@@ -131,10 +131,29 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
-              <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle" height="22"
-                alt="" loading="lazy">
+              <img src=<?php if (session()->get('loggedUserAvatar')) : ?>
+                <?= session()->get('loggedUserAvatar') ?>
+                <?php else : ?>
+                "/user.svg"
+                <?php endif; ?> alt="Avatar" width="20" height="20" style="border-radius: 50%;">
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown1">
+              <?php if (session()->get('loggedUserId')) : ?>
+              <li><a class="dropdown-item" href="<?= base_url('dashboard/profile') ?>">Profile</a></li>
+              <li><a class="dropdown-item" href="<?= base_url('auth/logout') ?>">Logout</a></li>
+              <?php else : ?>
+              <li><a class="dropdown-item" href="<?= base_url('auth') ?>">Login</a></li>
+              <li><a class="dropdown-item" href="<?= base_url('auth/register') ?>">Register</a></li>
+              <?php endif; ?>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="fas fa-bell"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown2">
+              
               <li><a class="dropdown-item" href="#">Action</a></li>
               <li><a class="dropdown-item" href="#">Another action</a></li>
               <li>
@@ -164,7 +183,7 @@
       align-items: center;
     }
     .card {
-      width: 3000px;
+      width: <?php echo $width ?? '3000px'; ?>;
       padding: 20px;
       border: 1px solid #333;
       border-radius: 10px;
@@ -197,6 +216,19 @@
     .btn-primary:hover {
       background-color: #333;
     }
+    ::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
   </style>
 </head>
 <body>

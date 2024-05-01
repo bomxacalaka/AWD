@@ -6,6 +6,9 @@ use App\Controllers\BaseData;
 
 class Auth extends BaseController
 {
+    private static $defaultData = [
+        'width' => '300px',
+    ];
     public function __construct()
     {
         helper(['url', 'form', 'Form_helper']);
@@ -67,7 +70,12 @@ class Auth extends BaseController
         //. view('auth/login')
         //. view('templates/footer');
 
-        return BaseData::getFullPage('auth/login', ['title' => 'Login']);
+
+
+        $data = [
+            'title' => 'Login',
+        ];
+        return BaseData::getFullPage('/auth/login', array_merge(self::$defaultData, $data));
     }
 
     public function register()
@@ -78,7 +86,11 @@ class Auth extends BaseController
         //. view('auth/register')
         //. view('templates/footer');
 
-        return BaseData::getFullPage('auth/register', ['title' => 'Register']);
+        $data = [
+            'title' => 'Register',
+        ];
+
+        return BaseData::getFullPage('/auth/register', array_merge(self::$defaultData, $data));
     }
     public function save() {
         $validation = $this->validate([
@@ -125,7 +137,7 @@ class Auth extends BaseController
                 'validation' => $this->validator,
             ];
 
-            return BaseData::getFullPage('auth/register', $data);
+            return BaseData::getFullPage('/auth/register', array_merge(self::$defaultData, $data));
 
         } else {
             $userName = $this->request->getPost('userName');
@@ -180,7 +192,7 @@ class Auth extends BaseController
                 'validation' => $this->validator,
             ];
 
-            return BaseData::getFullPage('auth/login', $data);
+            return BaseData::getFullPage('/auth', array_merge(self::$defaultData, $data));
 
         } else {
             $email = $this->request->getPost('email');
@@ -197,6 +209,7 @@ class Auth extends BaseController
     
                 session()->set('loggedUserId', $loggedUserId);
                 session()->set('loggedUserFullName', $loggedUserFullName);
+                session()->set('loggedUserAvatar', "https://icons.iconarchive.com/icons/thesquid.ink/free-flat-sample/256/rubber-duck-icon.png");
 
                 session()->setFlashdata('success', 'Login success');
                 return redirect()->to('/dashboard')->withInput();
@@ -231,6 +244,8 @@ class Auth extends BaseController
     public function logout() {
         if(session()->has('loggedUserId')) {
             session()->remove('loggedUserId');
+            session()->remove('loggedUserFullName');
+            session()->remove('loggedUserAvatar');
             return redirect()->to('/auth?access=out')->with('fail', 'You have been logged out');
         }
     }

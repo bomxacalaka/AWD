@@ -12,7 +12,7 @@
             <h2>Get Started</h2>
             <p>To begin training your models, simply sign in or register for an account.</p>
             <div>
-                <a href="<?= base_url('auth/login'); ?>" class="btn btn-primary">Login</a>
+                <a href="<?= base_url('auth'); ?>" class="btn btn-primary">Login</a>
                 <a href="<?= base_url('auth/register'); ?>" class="btn btn-secondary">Register</a>
             </div>
         </section>

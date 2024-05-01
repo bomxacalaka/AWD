@@ -21,7 +21,7 @@ $routes->group('',['filter' => 'AlreadyLoggedIn'], function ($routes) {
     $routes->post('auth/check', 'Auth::check');
 });
 
-$routes->get('auth/login', 'Auth::index');
+//$routes->get('login', 'Auth::index');
 
 $routes->get('auth/logout', 'Auth::logout');
 
