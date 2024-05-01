@@ -1,5 +1,4 @@
 
-
   <form method="post" action="<?= base_url('auth/check') ?>" autocomplete="off">
         <?= csrf_field(); ?>
         <?php if(!empty(session()->getFlashdata('fail'))) : ?>

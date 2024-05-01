@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\UserModel;
+use App\Controllers\BaseData;
 
 class Dashboard extends BaseController
 {
@@ -16,9 +17,12 @@ class Dashboard extends BaseController
         ];
 
         // Load views with header and footer
-        return view('templates/header', $data)
-            . view('dashboard/index', $data)
-            . view('templates/footer', $data);
+        //return view('templates/header', $data)
+        //    . view('dashboard/index', $data)
+        //    . view('templates/footer', $data);
+
+        return BaseData::getFullPage('dashboard/index', $data);
+
     }
 
     public function profile()
@@ -32,8 +36,10 @@ class Dashboard extends BaseController
         ];
 
         // Load views with header and footer
-        return view('templates/header', $data)
-            . view('dashboard/profile', $data)
-            . view('templates/footer', $data);
+        // return view('templates/header', $data)
+        //     . view('dashboard/profile', $data)
+        //     . view('templates/footer', $data);
+
+        return BaseData::getFullPage('dashboard/profile', $data);
     }
 }

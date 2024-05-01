@@ -8,7 +8,9 @@ class Pages extends BaseController
 {
     public function index()
     {
-        return view('welcome_message');
+        return view('templates/header')
+            . view('pages/home')
+            . view('templates/footer');
     }
 
     public function view($page = 'about')

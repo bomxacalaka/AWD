@@ -2,6 +2,7 @@
 
 use App\Models\UserModel;
 use App\Libraries\Hash;
+use App\Controllers\BaseData;
 
 class Auth extends BaseController
 {
@@ -60,19 +61,24 @@ class Auth extends BaseController
         // return view('auth/login');
         // return view('form/index', $data);
 
-        $data['title'] = "Login";
+        //$data['title'] = "Login";
 
-        return view('templates/header', $data)
-        . view('auth/login')
-        . view('templates/footer');
+        //return view('templates/header', $data)
+        //. view('auth/login')
+        //. view('templates/footer');
+
+        return BaseData::getFullPage('auth/login', ['title' => 'Login']);
     }
 
     public function register()
     {
         // return view('auth/register');
-        return view('templates/header', ['title' => 'Register'])
-        . view('auth/register')
-        . view('templates/footer');
+
+        //return view('templates/header', ['title' => 'Register'])
+        //. view('auth/register')
+        //. view('templates/footer');
+
+        return BaseData::getFullPage('auth/register', ['title' => 'Register']);
     }
     public function save() {
         $validation = $this->validate([
@@ -110,9 +116,17 @@ class Auth extends BaseController
         if(!$validation) {
             // return view('auth/register', ['validation' => $this->validator]);
 
-            return view('templates/header', ['title' => 'Register'])
-            . view('auth/register', ['validation' => $this->validator])
-            . view('templates/footer');
+            //return view('templates/header', ['title' => 'Register'])
+            //. view('auth/register', ['validation' => $this->validator])
+            //. view('templates/footer');
+
+            $data = [
+                'title' => 'Register',
+                'validation' => $this->validator,
+            ];
+
+            return BaseData::getFullPage('auth/register', $data);
+
         } else {
             $userName = $this->request->getPost('userName');
             $email = $this->request->getPost('email');
@@ -157,9 +171,16 @@ class Auth extends BaseController
         if(!$validation) {
             // return view('auth/login', ['validation' => $this->validator]);
 
-            return view('templates/header', ['title' => 'Login'])
-            . view('auth/login', ['validation' => $this->validator])
-            . view('templates/footer');
+            //return view('templates/header', ['title' => 'Login'])
+            //. view('auth/login', ['validation' => $this->validator])
+            //. view('templates/footer');
+
+            $data = [
+                'title' => 'Login',
+                'validation' => $this->validator,
+            ];
+
+            return BaseData::getFullPage('auth/login', $data);
 
         } else {
             $email = $this->request->getPost('email');
