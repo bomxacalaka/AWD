@@ -1,4 +1,16 @@
-
+<head>
+    <style>
+            .btn-primary {
+      width: 10%;
+      padding: 10px;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    </style>
+</head>
     <header>
         <h1>Welcome to Model Appreciator</h1>
         <p>This website allows you to train and test machine learning models conveniently.</p>
@@ -10,10 +22,12 @@
         </section>
         <section>
             <h2>Get Started</h2>
-            <p>To begin training your models, simply sign in or register for an account.</p>
-            <div>
-                <a href="<?= base_url('auth'); ?>" class="btn btn-primary">Login</a>
-                <a href="<?= base_url('auth/register'); ?>" class="btn btn-secondary">Register</a>
-            </div>
+            <p>You can check models and use them on the Models section.</p>
+            <p>For training your models, simply sign in or register for an account.</p>
+
+            <div class="gap-2">
+                <a href="<?= base_url('/auth'); ?>" class="btn btn-primary">Login</a>
+            <a href="<?= base_url('/auth/register'); ?>" class="btn btn-success">Register</a>
+                </div>
         </section>
     </main>

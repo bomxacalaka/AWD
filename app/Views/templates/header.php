@@ -107,10 +107,10 @@
             <a class="nav-link" href="/model">Models</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Marketplace</a>
+            <a class="nav-link" href="/datasets">Datasets</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Explore</a>
+            <a class="nav-link" href="/home">Home</a>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -131,11 +131,8 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
-              <img src=<?php if (session()->get('loggedUserAvatar')) : ?>
-                <?= session()->get('loggedUserAvatar') ?>
-                <?php else : ?>
-                "/user.svg"
-                <?php endif; ?> alt="Avatar" width="20" height="20" style="border-radius: 50%;">
+              <img src=<?= base_url('pfp/' . session()->get('loggedUserId')) ?> alt="Profile Picture" width="30"
+                height="30" style="border-radius: 50%;">
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown1">
               <?php if (session()->get('loggedUserId')) : ?>

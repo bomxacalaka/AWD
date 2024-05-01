@@ -9,9 +9,24 @@ use App\Controllers\Pages;
  */
 $routes->get('/', 'Home::index');
 
+// app/Config/Routes.php
+
+// Upload profile picture route
+// $routes->post('profile_picture/upload', 'ProfilePictureController::index');
+// $routes->get('upload', 'ProfilePictureController::index');
+// $routes->post('upload/do_upload', 'ProfilePictureController::upload');
+$routes->get('pfp/(:any)', 'Dashboard::getUserProfilePicture/$1');
+
+# Make one for https://h.drbom.net/pfp/ that will send it as https://h.drbom.net/pfp/0
+$routes->get('pfp', 'Dashboard::getUserProfilePicture/0');
+
+
+
+
 $routes->group('',['filter' => 'AuthCheck'], function ($routes) {
     $routes->get('dashboard', 'Dashboard::index');
     $routes->get('dashboard/profile', 'Dashboard::profile');
+    $routes->post('dashboard/profile/upload', 'Dashboard::upload');
 });
 $routes->group('',['filter' => 'AlreadyLoggedIn'], function ($routes) {
     // $routes->get('auth', 'Auth::showView');
@@ -28,8 +43,7 @@ $routes->get('auth/logout', 'Auth::logout');
 
 $routes->get('logo', 'Logo::svgImage');
 
-$routes->get('upload', 'Upload::index');
-$routes->post('upload/do_upload', 'Upload::do_upload');
+
 
 $routes->get('download', 'Download::downloadFile');
 

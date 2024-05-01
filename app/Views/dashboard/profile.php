@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-</head>
-<body>
+
     <h1>Profile</h1>
     
     <!-- Display flash messages (success or error) -->
@@ -17,14 +10,15 @@
     <?php endif ?>
 
     <!-- Display user's current profile picture (if available) -->
-    <?php if (isset($avatar)) : ?>
-        <img src="<?= base_url('writable/uploads/' . $avatar) ?>" alt="Profile Picture">
+    <?php if ($userID) : ?>
+        <img src="<?= base_url('pfp/' . $userID) ?>" alt="Profile Picture" width="200" height="200" style="border-radius: 50%;" />
     <?php endif ?>
 
-    <!-- Upload form -->
-    <form action="<?= base_url('profile/upload_picture') ?>" method="post" enctype="multipart/form-data">
-        <input type="file" name="avatar" accept="image/*">
-        <button type="submit">Upload</button>
-    </form>
-</body>
-</html>
+<!-- View: upload.php -->
+<?= \Config\Services::validation()->listErrors() ?>
+<?= csrf_field() ?>
+<?= form_open_multipart('/dashboard/profile/upload') ?>
+    <input type="file" name="profile_picture" />
+    <button type="submit">Upload</button>
+<?= form_close() ?>
+
