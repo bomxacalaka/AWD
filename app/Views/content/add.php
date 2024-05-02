@@ -1,4 +1,4 @@
-<h2>Add Data</h2>
+<h2>Add To Search</h2>
 <div class="container mt-5">
     <form action="<?= base_url('content/create') ?>" method="post">
         <!-- CSRF token field -->

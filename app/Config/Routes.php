@@ -22,9 +22,6 @@ $routes->get('pfp/(:any)', 'Dashboard::getUserProfilePicture/$1');
 $routes->get('pfp', 'Dashboard::getUserProfilePicture/0');
 
 $routes->get('pages/search', 'Pages::search');
-$routes->post('content/add', 'ContentController::add');
-$routes->post('content/create', 'ContentController::create');
-$routes->get('content', 'ContentController::add');
 
 
 
@@ -35,6 +32,9 @@ $routes->group('',['filter' => 'AuthCheck'], function ($routes) {
     $routes->get('dashboard/profile/delete', 'Dashboard::deleteAccount');
     $routes->get('models', [Model::class, 'index']);
     $routes->get('models/(:segment)', [Model::class, 'view']);
+    $routes->post('content/add', 'ContentController::add');
+    $routes->post('content/create', 'ContentController::create');
+    $routes->get('content', 'ContentController::add');
 });
 $routes->group('',['filter' => 'AlreadyLoggedIn'], function ($routes) {
     // $routes->get('auth', 'Auth::showView');
