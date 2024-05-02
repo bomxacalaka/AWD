@@ -1,5 +1,17 @@
-
-  <form method="post" action="<?= base_url('auth/check') ?>" autocomplete="off">
+<head>
+  <style>
+        .btn-primary {
+      width: 100%;
+      padding: 10px;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+  <form method="post" action="<?= base_url('/auth/check') ?>" autocomplete="off">
         <?= csrf_field(); ?>
         <?php if(!empty(session()->getFlashdata('fail'))) : ?>
         <div class="alert alert-danger"><?= session()->getFlashdata('fail'); ?></div>
@@ -29,5 +41,5 @@
         </div>
         <button class="btn btn-primary" type="submit">Login</button>
       </form>
-      <a href="<?= base_url('auth/register'); ?>" class="btn btn-link">Register</a>
+      <a href="<?= base_url('/auth/register'); ?>" class="btn btn-link">Register</a>
     </form>

@@ -1,4 +1,18 @@
-  <div class="container mt-5">
+<head>
+  <style>
+        .btn-primary {
+      width: 100%;
+      padding: 10px;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<div class="container mt-5">
     <form method="post" action="<?= base_url('auth/save') ?>" autocomplete="off">
       <?= csrf_field(); ?>
       <?php if(!empty(session()->getFlashdata('fail'))) : ?>

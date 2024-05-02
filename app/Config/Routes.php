@@ -3,6 +3,7 @@
 use CodeIgniter\Router\RouteCollection;
 use App\Controllers\News;
 use App\Controllers\Pages;
+use App\Controllers\Model;
 
 /**
  * @var RouteCollection $routes
@@ -20,6 +21,10 @@ $routes->get('pfp/(:any)', 'Dashboard::getUserProfilePicture/$1');
 # Make one for https://h.drbom.net/pfp/ that will send it as https://h.drbom.net/pfp/0
 $routes->get('pfp', 'Dashboard::getUserProfilePicture/0');
 
+$routes->get('pages/search', 'Pages::search');
+$routes->post('content/add', 'ContentController::add');
+$routes->post('content/create', 'ContentController::create');
+$routes->get('content', 'ContentController::add');
 
 
 
@@ -27,6 +32,9 @@ $routes->group('',['filter' => 'AuthCheck'], function ($routes) {
     $routes->get('dashboard', 'Dashboard::index');
     $routes->get('dashboard/profile', 'Dashboard::profile');
     $routes->post('dashboard/profile/upload', 'Dashboard::upload');
+    $routes->get('dashboard/profile/delete', 'Dashboard::deleteAccount');
+    $routes->get('models', [Model::class, 'index']);
+    $routes->get('models/(:segment)', [Model::class, 'view']);
 });
 $routes->group('',['filter' => 'AlreadyLoggedIn'], function ($routes) {
     // $routes->get('auth', 'Auth::showView');
@@ -35,10 +43,10 @@ $routes->group('',['filter' => 'AlreadyLoggedIn'], function ($routes) {
     $routes->post('auth/save', 'Auth::save');
     $routes->post('auth/check', 'Auth::check');
 });
+$routes->get('auth/logout', 'Auth::logout');
 
 //$routes->get('login', 'Auth::index');
 
-$routes->get('auth/logout', 'Auth::logout');
 
 
 $routes->get('logo', 'Logo::svgImage');

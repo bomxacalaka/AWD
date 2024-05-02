@@ -192,7 +192,7 @@ class Auth extends BaseController
                 'validation' => $this->validator,
             ];
 
-            return BaseData::getFullPage('/auth', array_merge(self::$defaultData, $data));
+            return BaseData::getFullPage('/auth/login', array_merge(self::$defaultData, $data));
 
         } else {
             $email = $this->request->getPost('email');

@@ -93,24 +93,33 @@
         <i class="fas fa-bars"></i>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="me-3">
-          <div class="input-group">
-            <input type="search" class="form-control rounded" placeholder="Search or jump to... ( / )"
-              aria-label="Search" aria-describedby="search-addon">
-          </div>
-        </form>
+<form class="me-3" action="<?= base_url('pages/search') ?>" method="GET">
+    <div class="input-group">
+        <input type="search" name="q" class="form-control rounded" placeholder="Search or jump to... ( / )" aria-label="Search" aria-describedby="search-addon">
+    </div>
+</form>
+
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
             <a class="nav-link" href="/dashboard">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/model">Models</a>
+            <a class="nav-link" href="/models">Models</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/datasets">Datasets</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/models/create">Create Model</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/models/test">Test Models</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/leaderboard">Leaderboard</a>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -202,7 +211,7 @@
       color: transparent; /* Hide placeholder text when input is focused */
     }
     .btn-primary {
-      width: 100%;
+      width: 40%;
       padding: 10px;
       background-color: #000;
       color: #fff;
