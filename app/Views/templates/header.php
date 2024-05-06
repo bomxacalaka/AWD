@@ -86,40 +86,41 @@
       <a class="navbar-brand" href="/">
         <img src="https://h.drbom.net/logo" alt="Logo" width="40" height="40" style="border-radius: 50%;">
       </a>
-
-
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars"></i>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-<form class="me-3" action="<?= base_url('pages/search') ?>" method="GET">
-    <div class="input-group">
-        <input type="search" name="q" class="form-control rounded" placeholder="Search or jump to... ( / )" aria-label="Search" aria-describedby="search-addon">
-    </div>
-</form>
-
+        <form class="me-3" action="<?= base_url('pages/search') ?>" method="GET">
+          <div class="input-group">
+            <input type="search" name="q" class="form-control rounded" placeholder="Search or jump to... ( / )"
+              aria-label="Search" aria-describedby="search-addon">
+          </div>
+        </form>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link" href="/dashboard">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/models">Models</a>
+            <a class="nav-link" href="/model">Models</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/datasets">Datasets</a>
-          </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="/home">Home</a>
-          </li>
-          <li class="nav-item">
+          </li> -->
+          <!-- <li class="nav-item">
             <a class="nav-link" href="/models/create">Create Model</a>
-          </li>
-          <li class="nav-item">
+          </li> -->
+          <!-- <li class="nav-item">
             <a class="nav-link" href="/models/test">Test Models</a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link" href="/leaderboard">Leaderboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/dataset">Datasets</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/test">Benchmark</a>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -129,7 +130,10 @@
               <i class="fas fa-plus"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="/content">Create Search</a></li>
+              <li>
+                <a class="dropdown-item" href="/api">API (WIP) for training</a>
+              </li>
               <li><a class="dropdown-item" href="#">Another action</a></li>
               <li>
                 <hr class="dropdown-divider">
@@ -144,16 +148,19 @@
                 height="30" style="border-radius: 50%;">
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown1">
-              <?php if (session()->get('loggedUserId')) : ?>
-              <li><a class="dropdown-item" href="<?= base_url('dashboard/profile') ?>">Profile</a></li>
-              <li><a class="dropdown-item" href="<?= base_url('auth/logout') ?>">Logout</a></li>
-              <?php else : ?>
-              <li><a class="dropdown-item" href="<?= base_url('auth') ?>">Login</a></li>
-              <li><a class="dropdown-item" href="<?= base_url('auth/register') ?>">Register</a></li>
+              <?php if (session()->get('loggedUserId')): ?>
+                <li><a class="dropdown-item" href="<?= base_url('dashboard/profile') ?>">Profile</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="<?= base_url('auth/logout') ?>">Logout</a></li>
+              <?php else: ?>
+                <li><a class="dropdown-item" href="<?= base_url('auth') ?>">Login</a></li>
+                <li><a class="dropdown-item" href="<?= base_url('auth/register') ?>">Register</a></li>
               <?php endif; ?>
             </ul>
           </li>
-          <li class="nav-item dropdown">
+          <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
               <i class="fas fa-bell"></i>
@@ -167,7 +174,7 @@
               </li>
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -178,65 +185,77 @@
   <div style="height: 50px;"></div>
 
   <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= $title; ?></title>
-  <style>
-    /* Styles for centering the card */
-    .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .card {
-      width: <?php echo $width ?? '3000px'; ?>;
-      padding: 20px;
-      border: 1px solid #333;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      color: #fff;
-    }
-    /* Custom styles for the form */
-    .form-floating input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .form-floating label {
-      color: #ccc; /* Change hint color */
-    }
-    .form-floating input:focus::placeholder {
-      color: transparent; /* Hide placeholder text when input is focused */
-    }
-    .btn-primary {
-      width: 40%;
-      padding: 10px;
-      background-color: #000;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .btn-primary:hover {
-      background-color: #333;
-    }
-    ::-webkit-scrollbar {
-    width: 12px;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $title; ?></title>
+    <style>
+      /* Styles for centering the card */
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-    border-radius: 10px;
-}
+      .card {
+        width:
+          <?php echo $width ?? '3000px'; ?>
+        ;
+        padding: 20px;
+        border: 1px solid #333;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        color: #fff;
+      }
 
-::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
-}
-  </style>
-</head>
-<body>
-  <div class="container mt-5">
-    <div class="card text-center bg-dark">
+      /* Custom styles for the form */
+      .form-floating input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      .form-floating label {
+        color: #ccc;
+        /* Change hint color */
+      }
+
+      .form-floating input:focus::placeholder {
+        color: transparent;
+        /* Hide placeholder text when input is focused */
+      }
+
+      .btn-primary {
+        width: 40%;
+        padding: 10px;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .btn-primary:hover {
+        background-color: #333;
+      }
+
+      ::-webkit-scrollbar {
+        width: 12px;
+      }
+
+      ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container mt-5">
+      <div class="card text-center bg-dark">

@@ -17,7 +17,7 @@
             <a href="/dashboard" class="btn btn-secondary">Back</a>
         </div>
         <h1 class="mb-4">Profile</h1>
-
+        <hr>
         <!-- Display flash messages (success or error) -->
         <?php if (session()->has('success')) : ?>
             <div class="alert alert-success"><?= session()->get('success') ?></div>

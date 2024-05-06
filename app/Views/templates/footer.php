@@ -53,7 +53,7 @@
       <div class="text-center p-3" style="background-color: #000000;">
         <!-- Copyright information -->
         © 2024 Copyright:
-        <a class="text-white" href="https://mdbootstrap.com/">h.drbom.net</a>
+        <a class="text-white" href="https://h.drbom.net">h.drbom.net</a>
       </div>
     </div>
   </div>

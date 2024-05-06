@@ -23,6 +23,7 @@
                     <i class="fa fa-key" aria-hidden="true"></i>
                 </div>
       <h1 class="h3 mb-3 fw-normal">Model Appreciator</h1>
+      <hr>
       <form>
         <span class="text-danger"><?= isset($validation) ? $validation->getError('email') : '' ?></span>
         <div class="form-floating">

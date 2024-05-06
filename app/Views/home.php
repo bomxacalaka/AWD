@@ -13,6 +13,7 @@
 </head>
     <header>
         <h1>Welcome to Model Appreciator</h1>
+        <hr>
         <p>This website allows you to train and test machine learning models conveniently.</p>
     </header>
     <main>

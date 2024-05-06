@@ -25,6 +25,7 @@
           <i class="fa fa-key" aria-hidden="true"></i>
         </div>
         <h1 class="h3 mb-3 fw-normal">Registration Form</h1>
+        <hr>
         <span class="text-danger"><?= isset($validation) ? display_error($validation, 'userName') : '' ?></span>
         <div class="form-floating">
           <input type="text" class="form-control" name="userName" value="<?= set_value('userName'); ?>" placeholder=" ">

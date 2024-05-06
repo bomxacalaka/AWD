@@ -1,5 +1,6 @@
 
 <h1 class="mb-4">Test Models</h1>
+<hr>
 <div class="container mt-5">
         <?php if (session()->has('success')) : ?>
             <div class="alert alert-success"><?= session()->get('success') ?></div>

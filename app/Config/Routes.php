@@ -21,7 +21,17 @@ $routes->get('pfp/(:any)', 'Dashboard::getUserProfilePicture/$1');
 # Make one for https://h.drbom.net/pfp/ that will send it as https://h.drbom.net/pfp/0
 $routes->get('pfp', 'Dashboard::getUserProfilePicture/0');
 
-$routes->get('pages/search', 'Pages::search');
+// $routes->get('api-key/generate/(:num)', 'ApiKeyController::generate/$1');
+
+// $routes->group('api-test', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+//     $routes->post('post', 'PostController::createPost'); // Route POST requests to createPost method in PostController
+// });
+
+
+$routes->post('api-test', 'ModelAPIpost::show');
+
+
+$routes->get('leaderboard', 'Leaderboard::index');
 
 
 
@@ -35,6 +45,27 @@ $routes->group('',['filter' => 'AuthCheck'], function ($routes) {
     $routes->post('content/add', 'ContentController::add');
     $routes->post('content/create', 'ContentController::create');
     $routes->get('content', 'ContentController::add');
+    // $routes->get('content/(:segment)', 'ContentController::view');
+    $routes->get('api-key/generate', 'ApiKeyController::generate');
+    $routes->get('api-key/delete/(:num)', 'ApiKeyController::delete/$1');
+    $routes->get('api', 'ApiKeyController::index');
+    // Routes for handling form data upload
+    // $routes->post('model/upload', 'Model::upload');
+    
+    $routes->get('dataset', 'UploadDataset::index');
+    $routes->get('dataset/uploads', 'UploadDataset::uploads');
+    $routes->post('dataset/upload', 'UploadDataset::do_upload');
+    $routes->post('dataset/delete', 'UploadDataset::deleteFile');
+
+    $routes->get('model', 'UploadModel::index');
+    $routes->get('model/uploads', 'UploadModel::uploads');
+    $routes->post('model/upload', 'UploadModel::do_upload');
+    $routes->post('model/delete', 'UploadModel::deleteFile');
+
+    $routes->get('test', 'Test::index');
+    $routes->get('test/run', 'Test::run');
+    $routes->get('test/share', 'Test::share');
+
 });
 $routes->group('',['filter' => 'AlreadyLoggedIn'], function ($routes) {
     // $routes->get('auth', 'Auth::showView');
@@ -47,11 +78,9 @@ $routes->get('auth/logout', 'Auth::logout');
 
 //$routes->get('login', 'Auth::index');
 
-
-
 $routes->get('logo', 'Logo::svgImage');
 
-
+$routes->get('pages/search', 'Pages::search');
 
 $routes->get('download', 'Download::downloadFile');
 

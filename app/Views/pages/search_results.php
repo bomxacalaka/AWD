@@ -1,7 +1,7 @@
 <!-- pages/search_results.php -->
 
 <h2>Search Results for: <?= esc($query) ?></h2>
-
+<hr>
 <ul>
     <?php foreach ($pages as $page) : ?>
         <li class="list-group-item">

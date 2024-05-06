@@ -1,5 +1,6 @@
 
 <h1 class="mb-4">Models</h1>
+<hr>
 <div class="container mt-5">
         <table class="table">
             <thead>
