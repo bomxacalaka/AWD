@@ -33,6 +33,6 @@
         </div>
     </div>
         <div class="col-auto mt-3">
-            <a href="/dataset/uploads" class="btn btn-primary">Upload</a>
+            <a id="confetti" href="/dataset/uploads" class="btn btn-primary">Upload</a>
             <a href="/dataset/huggin" class="btn btn-primary">Download</a>
         </div>

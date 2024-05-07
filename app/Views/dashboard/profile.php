@@ -9,6 +9,13 @@
       border-radius: 5px;
       cursor: pointer;
     }
+    .btn-delete {
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-delete:hover {
+        background-color: #f00; /* Adjust color as needed */
+    }
   </style>
 </head>
 <div class="container">
@@ -43,9 +50,12 @@
             <!-- add space between submit and delete button -->
             <button type="submit" class="btn btn-primary">Upload</button>
             <div style="height: 10px;"></div>
-            <!-- Delete account -->
+            <!-- small Delete account -->
         </form>
-        <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete Account</button>
+        <div class="container">
+            <button id="confettiButton" type="button" class="btn btn-danger btn-sm btn-delete" style="width: 40%; height: 10%;" onclick="confirmDelete()">Delete Account</button>
+        </div>
+
     </div>
 </div>
 
@@ -67,6 +77,11 @@
         </div>
     </div>
 </div>
+
+<!-- Confetti animation -->
+<!-- <button id="confettiButton">Click for Confetti!</button> -->
+
+
 
 <!-- Custom JavaScript for file upload validation -->
 <script>

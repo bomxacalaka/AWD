@@ -83,7 +83,7 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-black">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">
+      <a id="confetti" class="navbar-brand" href="/">
         <img src="https://h.drbom.net/logo" alt="Logo" width="40" height="40" style="border-radius: 50%;">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -259,6 +259,30 @@
       }
     </style>
   </head>
+
+  <script type="module">
+  import confetti from 'https://cdn.skypack.dev/canvas-confetti';
+
+const confettiButton = document.getElementById('confetti');
+
+confettiButton.addEventListener('click', () => {
+  confetti();
+});
+sessionStorage.setItem('playConfetti', 'true'); // Move this up if you only want it on certain button clicks
+</script>
+
+  <script type="module">
+    import confetti from 'https://cdn.skypack.dev/canvas-confetti';
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const shouldPlayConfetti = sessionStorage.getItem('playConfetti');
+
+      if (shouldPlayConfetti === 'true') {
+        confetti();
+        sessionStorage.removeItem('playConfetti');
+      }
+    });
+  </script>
 
   <body>
     <div class="container mt-5">
