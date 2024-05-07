@@ -22,6 +22,11 @@ use CodeIgniter\Config\AutoloadConfig;
  */
 class Autoload extends AutoloadConfig
 {
+    // public $aliases = [
+    //     // Other aliases...
+    //     'session' => CodeIgniter\Session\Session::class,
+    // ];
+    
     /**
      * -------------------------------------------------------------------
      * Namespaces

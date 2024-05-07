@@ -98,9 +98,9 @@
           </div>
         </form>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="/dashboard">Dashboard</a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link" href="/model">Models</a>
           </li>
@@ -111,7 +111,7 @@
             <a class="nav-link" href="/models/create">Create Model</a>
           </li> -->
           <!-- <li class="nav-item">
-            <a class="nav-link" href="/models/test">Test Models</a>
+            <a class="nav-link" href="/test/quick">Quick</a>
           </li> -->
           <li class="nav-item">
             <a class="nav-link" href="/leaderboard">Leaderboard</a>
@@ -121,6 +121,9 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/test">Benchmark</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/huggin">Huggin</a>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -132,31 +135,32 @@
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="/content">Create Search</a></li>
               <li>
-                <a class="dropdown-item" href="/api">API (WIP) for training</a>
+                <a class="dropdown-item" href="/huggin">HuggingFace Viewer</a>
               </li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="/leaderboard">Leaderboard</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li><a class="dropdown-item" href="/api">API (WIP) for training</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
-              <img src=<?= base_url('pfp/' . session()->get('loggedUserId')) ?> alt="Profile Picture" width="30"
+              <img src=<?= base_url('/pfp/' . session()->get('loggedUserId')) ?> alt="Profile Picture" width="30"
                 height="30" style="border-radius: 50%;">
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown1">
               <?php if (session()->get('loggedUserId')): ?>
-                <li><a class="dropdown-item" href="<?= base_url('dashboard/profile') ?>">Profile</a></li>
+                <li><a class="dropdown-item" href="<?= base_url('/dashboard') ?>">Dash</a></li>
+                <li><a class="dropdown-item" href="<?= base_url('/dashboard/profile') ?>">Profile</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="<?= base_url('auth/logout') ?>">Logout</a></li>
+                <li><a class="dropdown-item" href="<?= base_url('/auth/logout') ?>">Logout</a></li>
               <?php else: ?>
-                <li><a class="dropdown-item" href="<?= base_url('auth') ?>">Login</a></li>
-                <li><a class="dropdown-item" href="<?= base_url('auth/register') ?>">Register</a></li>
+                <li><a class="dropdown-item" href="<?= base_url('/auth') ?>">Login</a></li>
+                <li><a class="dropdown-item" href="<?= base_url('/auth/register') ?>">Register</a></li>
               <?php endif; ?>
             </ul>
           </li>
@@ -187,7 +191,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title; ?></title>
+    <title><?= $data['title'] ?? $title ?></title>
     <style>
       /* Styles for centering the card */
       .container {

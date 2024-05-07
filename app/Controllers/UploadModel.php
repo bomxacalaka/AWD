@@ -48,7 +48,7 @@ class UploadModel extends BaseController
             return BaseData::getFullPage('model/list', ['files' => $files, 'data' => $data]);
         } else {
             // Handle the case where the directory doesn't exist
-            return BaseData::getFullPage('model/list', ['files' => ["No files found"]]);
+            return BaseData::getFullPage('model/list', ['files' => ["No files found"], 'data' => $data]);
         }
     }
 
@@ -59,7 +59,7 @@ class UploadModel extends BaseController
 
         if ($this->request->getMethod() === 'post') {
             $rules = [
-                'model' => 'uploaded[model]|max_size[model,100000]',
+                'model' => 'uploaded[model]|max_size[model,10000000]',
             ];
             $errors = [
                 'profile_picture' => [
@@ -115,5 +115,6 @@ class UploadModel extends BaseController
         return redirect()->to('/model')->with('error', 'File not found.');
     }
 }
+
 
 }

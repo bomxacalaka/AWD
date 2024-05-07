@@ -9,63 +9,72 @@ use App\Models\ScoreModel;
 
 class Test extends BaseController
 {
+    protected $session;
     public function __construct()
     {
-        helper(['form', 'url']);
+        helper(['form', 'url', 'session']);
+        $this->session = \Config\Services::session();
+        $this->session->start();
     }
-
     public function index()
     {
         // Get the user's session ID
         $userId = session()->get('loggedUserId');
-
-        // Define the directory path
+    
+        // Define the directory paths
         $userDirectory = WRITEPATH . 'uploads/' . $userId;
         $modelDirectory = $userDirectory . '/models';
         $datasetDirectory = $userDirectory . '/datasets';
         $scriptDirectory = '../scripts';
-        
-
-        $UserModel = new UserModel();
-        $ScoreModel = new ScoreModel();
+    
+        // Check if the directories exist, create them if they don't
+        if (!is_dir($modelDirectory)) {
+            mkdir($modelDirectory, 0700, true);
+        }
+        if (!is_dir($datasetDirectory)) {
+            mkdir($datasetDirectory, 0700, true);
+        }
+    
+        // Initialize arrays for models, datasets, and scripts
+        $models = [];
+        $datasets = [];
+        $scripts = [];
+    
+        // Get the list of files in each directory
+        if (is_dir($modelDirectory)) {
+            $models = array_diff(scandir($modelDirectory), array('..', '.'));
+        }
+        if (is_dir($datasetDirectory)) {
+            $datasets = array_diff(scandir($datasetDirectory), array('..', '.'));
+        }
+        if (is_dir($scriptDirectory)) {
+            $scripts = array_diff(scandir($scriptDirectory), array('..', '.'));
+        }
+    
+        // Check if directories are empty
+        if (empty($models)) {
+            $models = ['No models found'];
+        } 
+        if (empty($datasets)) {
+            $datasets = ['No datasets found'];
+        }
+        if (empty($scripts)) {
+            $scripts = ['No scripts found'];
+        }
+    
+        // Construct the data array
         $data = [
             'title' => "Test Page",
-            'name' => $UserModel->find($userId)['firstname_usr'],
+            'name' => (new UserModel())->find($userId)['firstname_usr'],
             'userID' => $userId,
+            'models' => $models,
+            'datasets' => $datasets,
+            'scripts' => $scripts,
         ];
-
-        $results = [1,2,3];
-
-        // Check if the directory exists
-        if (is_dir($modelDirectory) && is_dir($datasetDirectory)) {
-            // List all files in the directory
-            $models = array_diff(scandir($modelDirectory), array('..', '.'));
-            $datasets = array_diff(scandir($datasetDirectory), array('..', '.'));
-            $scripts = array_diff(scandir($scriptDirectory), array('..', '.'));
-
-            // You can now do whatever you want with the $files array
-            // For example, you can pass it to a view to display the list to the user
-            $data = [
-                'title' => 'Test Models',
-                'models' => $models,
-                'datasets' => $datasets,
-                'results' => $results,
-                'scripts' => $scripts
-            ];
-            return BaseData::getFullPage('test/show', $data);
-        } else {
-            // Handle the case where the directory doesn't exist
-            $data = [
-                'title' => 'Test Page',
-                'models' => ["No models found"],
-                'datasets' => ["No datasets found"],
-                'results' => ["No results found"],
-                'scripts' => ["No scripts found"]
-            ];
-            return BaseData::getFullPage('test/show', $data);
-        }
+    
+        return BaseData::getFullPage('test/show', $data);
     }
-
+    
 
     public function run()
     {
@@ -77,31 +86,34 @@ class Test extends BaseController
         // $test = $this->request->getGet('test');
         // $file = $this->request->getGet('file');
 
+        
         $data = [
             'datasets' => $datasets,
             'models' => $models,
             'script' => $script,
             'test' => "",
             'file' => "/var/www/html/AWD/writable/uploads/0/default_config.json",
+            'class_names_path' => '/var/www/html/AWD/writable/uploads/0/class_names.txt'
         ];
-
+        
         // Find model path
         $modelPath = WRITEPATH . 'uploads/' . session()->get('loggedUserId') . '/models/' . $data['models'];
         // Find dataset path
         $datasetPath = WRITEPATH . 'uploads/' . session()->get('loggedUserId') . '/datasets/' . $data['datasets'];
-
+        
         $data['model'] = $modelPath;
         $data['dataset'] = $datasetPath;
-
+        
         // Convert JSON data from an array to a string
         $jsonString = json_encode($data, JSON_PRETTY_PRINT);
         // Write in the file
         $fp = fopen($data['file'], 'w');
         fwrite($fp, $jsonString);
         fclose($fp);
-
+        
         $command = "/var/www/html/AWD/envs/bin/python3.12 /var/www/html/AWD/scripts/" . $data['script'] . " --file " . $data['file'];
-
+        
+        // return $this->response->setJSON(['command' => $command]);
         // Execute the command
         $output = shell_exec($command);
 
@@ -156,9 +168,139 @@ class Test extends BaseController
 
         // Return the response
         return $this->response->setJSON(['status' => 'success', 'message' => 'Results shared successfully', 'datasets' => $datasets, 'models' => $models, 'scripts' => $scripts, 'results' => $data]);
-
-
     }
-    
 
+
+    public function quick()
+    {
+        $model = $this->request->getGet('model') ?? 'default';
+        $userId = $this->request->getGet('user_id') ?? 0;
+
+        session()->set('model', $model);
+        session()->set('from_user_id', $userId);
+
+        $data = [
+            'title' => 'Quick Test',
+            'model' => $model,
+            'user_id' => $userId,
+        ];
+        return BaseData::getFullPage('test/quick', ['data' => $data]);
+    }
+
+    public function quick_pic()
+        {
+        helper(['form', 'url']);
+
+        $model = new UserModel();
+
+        if ($this->request->getMethod() === 'post') {
+            $rules = [
+                'profile_picture' => 'uploaded[profile_picture]|max_size[profile_picture,1024]|is_image[profile_picture]',
+            ];
+            if ($this->validate($rules)) {
+                $profilePicture = $this->request->getFile('profile_picture');
+                // $newName = $profilePicture->getRandomName();
+                $newName = 'pfp.png';
+
+                // Create user-specific directory
+                $quickTest = WRITEPATH . 'uploads/' . session()->get('loggedUserId') . '/quick_test';
+                if (!is_dir($quickTest)) {
+                    mkdir($quickTest, 0700, true);
+                }
+
+                // Move the uploaded file to the user's directory
+                $profilePicture->move($quickTest, $newName);
+
+                $data = [
+                    'ppicture_usr' => $newName
+                ];
+                $model->update(session()->get('loggedUserId'), $data);
+
+
+                return redirect()->to('test/quick')->with('success', 'Profile picture uploaded successfully.')->with('model', $model)->with('from_user_id', session()->get('from_user_id'));
+            } else {
+                return redirect()->to('test/quick')->withInput()->with('error', $this->validator->listErrors());
+            }
+        }
+
+        return view('upload');
+    }
+
+
+    public function getPic($userId)
+    {
+        // Ensure that the requested user ID matches the logged-in user's ID (or implement your authentication logic)
+        // For security reasons, you should verify that the user has permission to access the picture
+        
+        
+        // Assuming the user's pictures are stored in the 'writable/uploads' directory
+        $filePath = WRITEPATH . 'uploads/' . $userId . '/quick_test/pfp.png';
+        
+        // Check if the file exists
+        if (file_exists($filePath)) {
+            // Set appropriate headers
+            header('Content-Type: ' . mime_content_type($filePath));
+            readfile($filePath);
+            exit;
+        } else {
+            // Handle file not found
+            return $this->response->setStatusCode(404);
+        }
+    }
+
+    public function predict()
+    {
+        $model = session()->get('model');
+        $userId = session()->get('from_user_id');
+
+        // Find model path
+        $modelPath = WRITEPATH . 'uploads/' . $userId . '/models/' . $model;
+        $img_path = WRITEPATH . 'uploads/' . $userId . '/quick_test/pfp.png';
+
+        $data = [
+            'title' => 'Predict',
+            'models' => $model,
+            'user_id' => $userId,
+            'file' => "/var/www/html/AWD/writable/uploads/0/default_config.json",
+            'test' => "1",
+            'script' => "vision.py",
+            'img_path' => $img_path,
+            'model_path' => $modelPath,
+            'class_names_path' => '/var/www/html/AWD/writable/uploads/0/class_names.txt'
+        ];
+
+        // Convert JSON data from an array to a string
+        $jsonString = json_encode($data, JSON_PRETTY_PRINT);
+        // Write in the file
+        $fp = fopen($data['file'], 'w');
+        fwrite($fp, $jsonString);
+        fclose($fp);
+
+        $command = "/var/www/html/AWD/envs/bin/python3.12 /var/www/html/AWD/scripts/" . $data['script'] . " --file " . $data['file'];
+
+        // Execute the command
+        $output = shell_exec($command);
+
+        // Decode the JSON output into a PHP associative array
+        $outputArray = json_decode($output, true);
+
+        // Return the response
+        return redirect()->to('test/quick')->with('success', 'Prediction successful.')->with('output', $outputArray);
+    }
+
+
+    // // back button that sends back to whatever page was back
+    // public function back()
+    // {
+    //     $newdata = [
+    //         'username'  => 'johndoe',
+    //         'email'     => 'johndoe@some-site.com',
+    //         'logged_in' => TRUE
+    // ];
+
+    // $this->session->set($newdata); // setting session data
+
+
+    // echo $this->session->get("username");
+    // }
 }

@@ -57,80 +57,56 @@ try:
         sys.stdout.flush()
         sys.exit(0)
     else:
-        import pandas as pd
+        import os
+        import numpy as np
+        from PIL import Image
         import numpy as np
         import tensorflow as tf
-        from sklearn.preprocessing import LabelEncoder, MinMaxScaler, OneHotEncoder, OrdinalEncoder
-        from sklearn.model_selection import train_test_split
-        from keras.models import load_model
-        from sklearn.metrics import r2_score
-        import os
+        from tensorflow import keras
+        from tensorflow.keras import layers
 
         tf.keras.utils.disable_interactive_logging()
 
-        # data = {
-        #     'loss': 0.6931,
-        #     'accuracy': 0.5,
-        # }
-        # sys.stdout.write(json.dumps(data))
-        # sys.stdout.flush()
-        # sys.exit(0)
-        # # Define the model
-        # model = tf.keras.Sequential([
-        #     tf.keras.layers.Dense(1, input_shape=(2,), activation='sigmoid')
-        # ])
+        size = 64  # Specify the target size for resizing and padding
+        target_size = (size, size)  # Specify the target size for resizing and padding
+        try:
+            img_path = data['dataset']  # Specify the path to the image
+            print(img_path)
+        except:
+            img_path = data['img_path']
 
-        # # Compile the model
-        # model.compile(optimizer='adam',
-        #             loss='binary_crossentropy',
-        #             metrics=['accuracy'])
+        print(data['model'])
+        print(data['class_names_path'])
 
-        # # Create dummy data
-        # X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])  # Convert to numpy array
-        # y = np.array([[0], [1], [1], [0]])  # Convert to numpy array
+        model_path = "/home/jd/saved_model.pb"
 
-        # # Train the model
-        # model.fit(X, y, epochs=1, verbose=None)
+        model = tf.keras.models.load_model("/home/jd/model_0.h5")
 
-        # # Evaluate the model
-        # loss, accuracy = model.evaluate(X, y)
-        
-        # data = {
-        #     'loss': loss,
-        #     'accuracy': accuracy
-        # }
-        
-        modelPath = data['model']
-        datasetPath = data['dataset']
-        
+        with open(data['class_names_path'], "r") as file:
+            class_names = [line.strip() for line in file]
 
-        
-        # Load the dataset .npz
-        dataset = np.load(datasetPath)
-        # X_train = dataset['X_train']
-        X_test = dataset['X_test']
-        # y_train = dataset['y_train']
-        y_test = dataset['y_test']
-        
-        # Load the model
-        model = load_model(modelPath)
-        
-        model.compile(loss='mean_squared_error',optimizer='adam', metrics=['mse'])
-        
-        # Load models
-        y_pred = model.predict(X_test)
-        r2 = r2_score(y_test, y_pred)
-        loss, accuracy = model.evaluate(X_test, y_test)
-        # print(f"R^2 Score for {model}: {r2:.4f}")
-        
-        
-        
-        
-        
+        def resize_and_pad_image(img, target_size):
+            # Resize the image while maintaining the aspect ratio
+            img.thumbnail(target_size, Image.Resampling.LANCZOS)
+
+            # Create a new image with the target size and paste the resized image onto it
+            new_img = Image.new("RGB", target_size)
+            position = ((target_size[0] - img.size[0]) // 2, (target_size[1] - img.size[1]) // 2)
+            new_img.paste(img, position)
+
+            return new_img
+
+        predictions = model.predict(np.array([np.array(resize_and_pad_image(Image.open(img_path), target_size))]))
+        max_ = 0
+        c = 0
+        for i in predictions[0]:
+            if i > max_:
+                max_ = i
+                fc = c
+            c += 1
+            
         data = {
-            'loss': loss,
-            'accuracy': accuracy,
-            'r2': r2
+            'pred': class_names[fc]
         }
         sys.stdout.write(json.dumps(data))
         sys.stdout.flush()

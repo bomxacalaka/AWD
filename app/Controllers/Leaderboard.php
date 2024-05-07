@@ -36,7 +36,7 @@ class Leaderboard extends BaseController
         // Fetch scores from the database, sorted by the selected column and order
         $data = [
             'title' => "Leaderboard",
-            'scores' => $ScoreModel->orderBy($sort, $order)->findAll(),
+            'scores' => $ScoreModel->orderBy($sort, $order)->limit(10)->findAll(),
             'sort' => $sort, // Pass $sort to the view
             'order' => $order // Pass $order to the view
         ];

@@ -48,7 +48,7 @@ class UploadDataset extends BaseController
             return BaseData::getFullPage('dataset/list', ['files' => $files, 'data' => $data]);
         } else {
             // Handle the case where the directory doesn't exist
-            return "User directory not found";
+            return BaseData::getFullPage('dataset/list', ['files' => ["No files found"], 'data' => $data]);
         }
     }
 
@@ -94,7 +94,7 @@ class UploadDataset extends BaseController
     }
 
     public function deleteFile()
-{
+    {
     // Get the filename from the POST request
     $filename = $this->request->getPost('filename');
 
@@ -114,6 +114,60 @@ class UploadDataset extends BaseController
         // Handle the case where the file doesn't exist
         return redirect()->to('/dataset')->with('error', 'File not found.');
     }
-}
+    }
 
+    public function huggingface()
+    {
+        $data = [
+            'title' => "Hugging Face Datasets",
+        ];
+        return BaseData::getFullPage('dataset/huggindownload', ['data' => $data]);
+    }
+
+
+    public function downloadFromHuggingface()
+    {
+        // Get the user's session ID
+        $userId = session()->get('loggedUserId');
+
+        // Define the directory path
+        $userDirectory = WRITEPATH . 'uploads/' . $userId . '/datasets';
+
+        // Check if the directory exists
+        if (!is_dir($userDirectory)) {
+            mkdir($userDirectory, 0700, true);
+        }
+
+        // https://datasets-server.huggingface.co/parquet?dataset=codeparrot/codecomplex
+        // {"parquet_files":[{"dataset":"codeparrot/codecomplex","config":"default","split":"train","url":"https://huggingface.co/datasets/codeparrot/codecomplex/resolve/refs%2Fconvert%2Fparquet/default/train/0000.parquet","filename":"0000.parquet","size":4115908}],"pending":[],"failed":[],"partial":false}
+
+        // Download the dataset from Hugging Face
+        $dataset = $this->request->getGet('dataset');
+        $url = 'https://datasets-server.huggingface.co/parquet?dataset=' . $dataset;
+        $response = file_get_contents($url);
+        $data = json_decode($response, true);
+        $downloadLink = $data['parquet_files'][0]['url'];
+        $filename = $data['parquet_files'][0]['filename'];
+        
+        // Download the file
+        // Set User-Agent header
+$options = [
+    'http' => [
+        'header' => "User-Agent: Your-User-Agent-Here\r\n"
+    ]
+];
+
+// Create a stream context
+$context = stream_context_create($options);
+
+// Use file_get_contents with the stream context
+$file = file_get_contents($url, false, $context);
+
+        // $file = file_get_contents($downloadLink);
+        file_put_contents($userDirectory . '/' . $filename, $file);
+        
+        // Return json response
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Dataset downloaded successfully.', 'filename' => $filename]);
+
+    }
 }

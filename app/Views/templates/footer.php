@@ -1,6 +1,6 @@
 <!-- Add some space above the footer -->
 </div>
-  </div>
+</div>
 </body>
 <div style="height: 50px;"></div>
 
@@ -14,10 +14,13 @@
       margin: 0;
       overflow-x: hidden;
     }
+
     .container-fluid {
-  margin: 0; /* Add this line to remove default margin */
-  padding: 0; /* Add this line to remove default padding */
-}
+      margin: 0;
+      /* Add this line to remove default margin */
+      padding: 0;
+      /* Add this line to remove default padding */
+    }
 
     footer {
       background-color: #333;
@@ -38,15 +41,9 @@
           <!-- Section: Social media -->
           <section class="mb-2">
             <!-- Social media icons -->
-            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
-                class="fab fa-facebook-f"></i></a>
-            <a class="btn btn-outline-light " href="#!" role="button"><i class="fab fa-twitter"></i></a>
-            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i class="fab fa-google"></i></a>
-            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
-                class="fab fa-instagram"></i></a>
-            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
+            <a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/in/jorge-dal/" role="button"><i
                 class="fab fa-linkedin-in"></i></a>
-            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i class="fab fa-github"></i></a>
+            <a class="btn btn-outline-light btn-floating m-1" href="https://github.com/bomxacalaka" role="button"><i class="fab fa-github"></i></a>
           </section>
         </div>
       </div>

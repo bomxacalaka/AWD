@@ -56,17 +56,27 @@ $routes->group('',['filter' => 'AuthCheck'], function ($routes) {
     $routes->get('dataset/uploads', 'UploadDataset::uploads');
     $routes->post('dataset/upload', 'UploadDataset::do_upload');
     $routes->post('dataset/delete', 'UploadDataset::deleteFile');
+    $routes->get('dataset/huggin', 'UploadDataset::huggingface');
+    $routes->get('dataset/huggin/download', 'UploadDataset::downloadFromHuggingface');
 
     $routes->get('model', 'UploadModel::index');
     $routes->get('model/uploads', 'UploadModel::uploads');
     $routes->post('model/upload', 'UploadModel::do_upload');
     $routes->post('model/delete', 'UploadModel::deleteFile');
+    
 
+    // $routes->get('back', 'Test::back');
+
+    
     $routes->get('test', 'Test::index');
     $routes->get('test/run', 'Test::run');
     $routes->get('test/share', 'Test::share');
-
+    $routes->get('test/quick', 'Test::quick');
+    $routes->post('test/quick/pic', 'Test::quick_pic');
+    $routes->get('test/quick/pic/current/(:any)', 'Test::getPic/$1');
+    $routes->get('test/quick/predict', 'Test::predict');
 });
+
 $routes->group('',['filter' => 'AlreadyLoggedIn'], function ($routes) {
     // $routes->get('auth', 'Auth::showView');
     $routes->get('auth', 'Auth::index');

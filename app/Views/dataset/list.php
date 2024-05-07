@@ -1,14 +1,12 @@
 <head>
   <style>
-        .btn-primary {
-      width: 20%;
-      padding: 10px;
-      background-color: #000;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+        .btn-short {
+      width: 40%;
     }
+        .btn-long {
+      width: 100%;
+    }
+
   </style>
 </head>
 
@@ -36,4 +34,5 @@
     </div>
         <div class="col-auto mt-3">
             <a href="/dataset/uploads" class="btn btn-primary">Upload</a>
+            <a href="/dataset/huggin" class="btn btn-primary">Download</a>
         </div>
