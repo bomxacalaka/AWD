@@ -74,7 +74,7 @@
                             Creation <?= ($sort == 'model_timestamp') ? ($order == 'ASC' ? '<i class="bi bi-caret-up"></i>' : '<i class="bi bi-caret-down"></i>') : '' ?>
                         </a>
                     </th>
-                    <th>Actions</th> <!-- Added Actions column header -->
+                    <!-- <th>Actions</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -86,12 +86,12 @@
                         <td><?= $score['model_name'] ?></td>
                         <td><?= $score['dataset_name'] ?></td>
                         <td><?= $score['model_timestamp'] ?></td>
-                        <td>
+                        <!-- <td> -->
                             <!-- Button with link including model and user_id parameters -->
-                            <a href="<?= base_url('test/quick') ?>?model=<?= $score['model_name'] ?>&user_id=<?= $score['user_id'] ?>" class="btn btn-primary">
+                            <!-- <a href="<?= base_url('test/quick') ?>?model=<?= $score['model_name'] ?>&user_id=<?= $score['user_id'] ?>" class="btn btn-primary">
                                 Use
-                            </a>
-                        </td>
+                            </a> -->
+                        <!-- </td> -->
                     </tr>
                 <?php endforeach; ?>
             </tbody>

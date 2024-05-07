@@ -60,7 +60,6 @@ overflow: auto;
 </style>
 </head>
 
-
 <h1><?= $title; ?></h1>
 <!-- thin line under the title -->
 <hr>
@@ -204,87 +203,92 @@ overflow: auto;
   var count = 0;
   var results = [];
   // Function to make AJAX request to the PHP endpoint
-  function runPythonScript() {
+function runPythonScript() {
     // Get the selected datasets
     const selectedDatasets = Array.from(document.querySelectorAll('input[name="selected_datasets[]"]'))
-      .filter(cb => cb.checked)
-      .map(cb => cb.value);
+        .filter(cb => cb.checked)
+        .map(cb => cb.value);
 
     // Get the selected models
     const selectedModels = Array.from(document.querySelectorAll('input[name="selected_models[]"]'))
-      .filter(cb => cb.checked)
-      .map(cb => cb.value);
+        .filter(cb => cb.checked)
+        .map(cb => cb.value);
 
     // Get the selected scripts
     const selectedScripts = Array.from(document.querySelectorAll('input[name="selected_scripts[]"]'))
-      .filter(cb => cb.checked)
-      .map(cb => cb.value);
+        .filter(cb => cb.checked)
+        .map(cb => cb.value);
 
     // Make AJAX request to the PHP endpoint
     fetch('<?= site_url('test/run') ?>?datasets=' + selectedDatasets + '&models=' + selectedModels + '&script=' + selectedScripts)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
 
-        let resultsString = '';
-        for (const key in data) {
-          resultsString += `<strong>${key}:</strong> ${data[key]}<br>`;
-        }
+            let resultsString = '';
+            let isSuccess = true; // Flag to determine if the test succeeded or failed
+            for (const key in data) {
+                resultsString += `<strong>${key}:</strong> ${data[key]}<br>`;
+                // Check if any key in data indicates failure
+                if (key.toLowerCase().includes('error') || key.toLowerCase().includes('failed')) {
+                    isSuccess = false;
+                }
+            }
 
-        const toSelect = selectedDatasets + selectedModels + selectedScripts + resultsString;
+            // Determine notification message based on success or failure
+            const notificationMessage = isSuccess ? 'Test Succeeded!' : 'Test Failed!';
 
-        // Add the response to the results list
-        const resultsList = document.getElementById('results');
-        const listItem = document.createElement('li');
-        listItem.classList.add('list-group-item');
-        // Add all values from the response to the list item with a share button
-        listItem.innerHTML += `<li class="list-group-item d-flex justify-content-center align-items-center" onclick="toggleCheckbox(this, 'results')">
-            <div>
-            <input class="form-check-input" id="results" type="checkbox" name="selected_results[]" value="${count}" id="${toSelect}" style="display: none;">
-            <label class="form-check
-            -label" for="${toSelect}">
-            <strong>${selectedDatasets}</strong><br>+
-            <br><strong>${selectedModels}</strong><br>+
-            <br><strong>${selectedScripts}</strong><br>=
-            <br><strong>${resultsString}</strong><br>
-            </label>
-            </div>
-          </li>`
-        // for (const key in data) {
-        //   listItem.innerHTML += `
-        //     <strong>${key}:</strong> ${data[key]}<br>`;
-        // }
-        // listItem.innerHTML += `
-        //     </label>
-        //     </div>
-        //   </li>`
-        resultsList.appendChild(listItem);
+            // Format data for notification
+            resultsString = resultsString.replace(/<br>/g, '\n');
 
+            // Show notification with results
+            notifyMe(notificationMessage, resultsString);
 
-        // Scroll to the bottom of the list
-        resultsList.scrollTop = resultsList.scrollHeight;
+            const toSelect = selectedDatasets + selectedModels + selectedScripts + resultsString;
 
+            // Add the response to the results list
+            const resultsList = document.getElementById('results');
+            const listItem = document.createElement('li');
+            listItem.classList.add('list-group-item');
+            // Add all values from the response to the list item with a share button
+            listItem.innerHTML += `<li class="list-group-item d-flex justify-content-center align-items-center" onclick="toggleCheckbox(this, 'results')">
+                <div>
+                <input class="form-check-input" id="results" type="checkbox" name="selected_results[]" value="${count}" id="${toSelect}" style="display: none;">
+                <label class="form-check
+                -label" for="${toSelect}">
+                <strong>${selectedDatasets}</strong><br>+
+                <br><strong>${selectedModels}</strong><br>+
+                <br><strong>${selectedScripts}</strong><br>=
+                <br><strong>${resultsString}</strong><br>
+                </label>
+                </div>
+            </li>`;
 
-        // id="Appreciator" set to display: none; by default
-        document.getElementById('Appreciator').style.display = 'block';
+            resultsList.appendChild(listItem);
 
-        // Share button set display: block; after the first result is added
-        document.getElementById('shareButton').style.display = 'block';
+            // Scroll to the bottom of the list
+            resultsList.scrollTop = resultsList.scrollHeight;
 
-        count++;
-        results.push([selectedDatasets, selectedModels, selectedScripts, data]);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }
+            // id="Appreciator" set to display: none; by default
+            document.getElementById('Appreciator').style.display = 'block';
 
-  // Share button event listener
-  function shareB() {
+            // Share button set display: block; after the first result is added
+            document.getElementById('shareButton').style.display = 'block';
+
+            count++;
+            results.push([selectedDatasets, selectedModels, selectedScripts, data]);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+// Share button event listener
+function shareB() {
     // Get the selected results
     const selectedResults = Array.from(document.querySelectorAll('input[name="selected_results[]"]'))
-      .filter(cb => cb.checked)
-      .map(cb => cb.value);
+        .filter(cb => cb.checked)
+        .map(cb => cb.value);
 
     sDataset = results[selectedResults][0];
     sModel = results[selectedResults][1];
@@ -292,25 +296,49 @@ overflow: auto;
     sData = results[selectedResults][3];
     sResults = "";
     for (const key in sData) {
-      console.log(key, sData[key]);
-      sResults += `,${key}:${sData[key]}`;
+        console.log(key, sData[key]);
+        sResults += `,${key}:${sData[key]}`;
     }
 
     sEverything = `datasets=${sDataset}&models=${sModel}&scripts=${sScript}&results=${sResults}`;
-    
 
     // Make AJAX request to the PHP endpoint
     fetch('<?= site_url('test/share') ?>?' + sEverything)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  };
-  document.getElementById('shareButton').addEventListener('click', shareB);
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+};
+document.getElementById('shareButton').addEventListener('click', shareB);
 
-  // Add event listener to the button to run the script
-  document.getElementById('runScriptButton').addEventListener('click', runPythonScript);
+// Function to show desktop notification
+function notifyMe(notificationTitle, notificationBody) {
+    if (!("Notification" in window)) {
+        // Check if the browser supports notifications
+        alert("This browser does not support desktop notification");
+    } else if (Notification.permission === "granted") {
+        // Create a notification if permission is already granted
+        const notification = new Notification(notificationTitle, {
+            body: notificationBody
+        });
+    } else if (Notification.permission !== "denied") {
+        // Request permission from the user
+        Notification.requestPermission().then((permission) => {
+            // If the user accepts, create a notification
+            if (permission === "granted") {
+                const notification = new Notification(notificationTitle, {
+                    body: notificationBody
+                });
+            }
+        });
+    }
+}
+
+// Add event listener to the button to run the script
+document.getElementById('runScriptButton').addEventListener('click', runPythonScript);
+
 </script>
+

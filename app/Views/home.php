@@ -12,7 +12,7 @@
     </style>
 </head>
 <header>
-    <h1>Welcome to Model Appreciator</h1>
+    <h1>Welcome to <code>Appreciator</code></h1>
     <hr>
     <p>This website allows you to train and test machine learning models conveniently.</p>
 </header>
