@@ -19,6 +19,42 @@
       border-radius: 5px;
       cursor: pointer;
     }
+    th {
+            vertical-align: middle !important;
+        }
+        th a {
+            display: inline-block;
+            color: #000;
+            text-decoration: none;
+        }
+        th a:hover {
+            color: #000;
+            text-decoration: none;
+        }
+        th i {
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+        td {
+            vertical-align: middle !important;
+        }
+        .table-rounded {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .btn-primary {
+      width: 100%;
+      padding: 10px;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .tbodyDiv{
+max-width: clamp(0px, 90%, 90%);
+overflow: auto;
+}
   </style>
 </head>
 </style>
@@ -29,7 +65,7 @@
 <!-- thin line under the title -->
 <hr>
 
-<div class="container mt-2">
+<div class="container mt-2 tbodyDiv">
   <div class="row">
     <div class="col-md-4">
       <ul class="list-group">

@@ -43,6 +43,14 @@ class UploadModel extends BaseController
             // List all files in the directory
             $files = array_diff(scandir($userDirectory), array('.', '..'));
 
+            // Get the size of each file in mb
+            foreach ($files as $key => $file) {
+                $files[$key] = [
+                    'name' => $file,
+                    'size' => round(filesize($userDirectory . '/' . $file) / 1024 / 1024, 2),
+                ];
+            }
+
             // You can now do whatever you want with the $files array
             // For example, you can pass it to a view to display the list to the user
             return BaseData::getFullPage('model/list', ['files' => $files, 'data' => $data]);

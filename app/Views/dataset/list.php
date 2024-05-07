@@ -1,38 +1,85 @@
 <head>
   <style>
-        .btn-short {
+    .btn-short {
       width: 40%;
     }
-        .btn-long {
+
+    .btn-long {
       width: 100%;
     }
-
+    th {
+            vertical-align: middle !important;
+        }
+        th a {
+            display: inline-block;
+            color: #000;
+            text-decoration: none;
+        }
+        th a:hover {
+            color: #000;
+            text-decoration: none;
+        }
+        th i {
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+        td {
+            vertical-align: middle !important;
+        }
+        .table-rounded {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .btn-primary {
+      width: 100%;
+      padding: 10px;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .tbodyDiv{
+max-width: clamp(0px, 90%, 90%);
+overflow: auto;
+}
   </style>
 </head>
 
 <h1 class="mb-4"><?= $data['title']; ?></h1>
 <hr>
 <div class="container justify-content-center">
-    
-    <div class="row mb-3">
-        
-        <ul class="list-group">
-            <?php foreach ($files as $file): ?>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <?php echo $file; ?>
-                    <!-- Add a delete button/link -->
-                    <form method="post" action="<?php echo base_url('dataset/delete'); ?>">
-                        <input type="hidden" name="filename" value="<?php echo $file; ?>">
-                        <div class="container">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </div>
-                    </form>
-                </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
+  <div class="tbodyDiv">
+<table class="table table-bordered table-striped text-center table-rounded">
+        <tbody>
+          <?php foreach ($files as $file): ?>
+          <tr>
+            <td><?php echo $file['name']; ?></td>
+            <td><?php echo $file['size']; ?> MB</td>
+            <td>
+              <form method="post" action="<?php echo base_url('dataset/delete'); ?>">
+                <input type="hidden" name="filename" value="<?php echo $file['name']; ?>">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
     </div>
-        <div class="col-auto mt-3">
-            <a id="confetti" href="/dataset/uploads" class="btn btn-primary">Upload</a>
-            <a href="/dataset/huggin" class="btn btn-primary">Download</a>
-        </div>
+  </div>
+
+
+<div style="height: 10px;"></div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-auto">
+      <a href="/dataset/uploads" class="btn btn-primary btn-short">Upload</a>
+    </div>
+    <div class="col-auto">
+      <a href="/dataset/huggin" class="btn btn-primary btn-short">Download</a>
+    </div>
+  </div>
+</div>

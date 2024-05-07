@@ -1,3 +1,43 @@
+<head>
+    <style>
+            th {
+            vertical-align: middle !important;
+        }
+        th a {
+            display: inline-block;
+            color: #000;
+            text-decoration: none;
+        }
+        th a:hover {
+            color: #000;
+            text-decoration: none;
+        }
+        th i {
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+        td {
+            vertical-align: middle !important;
+        }
+        .table-rounded {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .btn-primary {
+      width: 100%;
+      padding: 10px;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .tbodyDiv{
+max-width: clamp(0px, 90%, 90%);
+overflow: auto;
+}
+    </style>
+</head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <h1 class="mb-2">API Key Management</h1>
 <!-- create key -->
@@ -6,7 +46,7 @@
     <button id="generate-api-key-btn" class="btn btn-primary">Generate API Key</button>
 </div>
 
-<div class="container mt-3">
+<div class="container mt-3 tbodyDiv">
     <!-- List of APIs -->
     <div id="api-keys-container">
         <ul class="list-group" id="api-key-list">

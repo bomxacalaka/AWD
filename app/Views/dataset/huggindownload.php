@@ -28,6 +28,10 @@
             <a href="/dataset" class="btn btn-primary btn-long">Back</a>
         </div>
         <h1 class="mb-4">HugginSet</h1>
+        <!-- instructions -->
+        <p>Enter the dataset name to download the dataset.</p>
+        <p>Example: <code>m-a-p/COIG-CQIA</code></p>
+        <p>It will be downloaded to your private storage.</p>
         <hr>
         <!-- Display flash messages (success or error) -->
         <?php if (session()->has('success')) : ?>
