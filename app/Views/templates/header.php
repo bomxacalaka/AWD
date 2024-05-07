@@ -268,6 +268,7 @@ const confettiButton = document.getElementById('confetti');
 confettiButton.addEventListener('click', () => {
   confetti();
 });
+
 sessionStorage.setItem('playConfetti', 'true'); // Move this up if you only want it on certain button clicks
 </script>
 
