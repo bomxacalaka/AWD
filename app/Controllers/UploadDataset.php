@@ -38,6 +38,10 @@ class UploadDataset extends BaseController
         // Define the directory path
         $userDirectory = WRITEPATH . 'uploads/' . $userId . '/datasets';
 
+        if (!is_dir($userDirectory)) {
+            mkdir($userDirectory, 0700, true);
+        }
+
         // Check if the directory exists
         if (is_dir($userDirectory)) {
             // List all files in the directory
