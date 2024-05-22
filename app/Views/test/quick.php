@@ -33,25 +33,140 @@
         <?php if ($data['user_id']) : ?>
             <img src="<?= base_url('/test/quick/pic/current/' . $data['user_id']) ?>" class="img-fluid rounded mb-4" alt="Profile Picture" width="200" height="200">
         <?php endif ?>
+        <div id="cameraContainer">
+    <video id="cameraFeed" width="400" height="300" autoplay></video>
+</div>
+<!-- 
+        <div class="mb-3 mt-3">
+        <button onclick="capture()" class="btn btn-primary" id="captureButton">Capture</button>
+        </div>
+        <div class="mb-3 mt-3">
+        <button onclick="predict()" class="btn btn-primary">Predict</button>
+        </div> -->
 
-        <!-- File upload form -->
-        <form id="uploadForm" action="/test/quick/pic" method="post" enctype="multipart/form-data">
-            <?= csrf_field() ?>
-            <div class="mb-3">
-                <label for="profile_picture" class="form-label">Choose Profile Picture</label>
-                <input type="file" class="form-control" id="profile_picture" name="profile_picture" accept="image/*">
-                <span id="fileError" class="text-danger" style="display: none;">Invalid file format or size</span>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Upload</button>
-        </form>
-        <!-- button to predict, sends model and user_id as get and displays response -->
-        <form id="predictForm" action="/test/quick/predict" method="get">
-            <div class="mb-3">
-                <input type="hidden" id="model" name="model" value="<?= $data['model'] ?>">
-                <input type="hidden" id="user_id" name="user_id" value="<?= $data['user_id'] ?>">
-            </div>
-            <button type="submit" class="btn btn-primary">Predict</button>
+        <!-- Display the status of the prediction -->
+        <div id="status"></div>
         
     </div>
 </div>
+
+
+
+  <canvas id="canvas" style="display:none;"></canvas>
+  <!-- <button id="uploadButton">Upload Picture</button> -->
+
+  <script>
+    const video = document.getElementById('cameraFeed');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    // const captureButton = document.getElementById('captureButton');
+    // const uploadButton = document.getElementById('uploadButton');
+
+    // Access the device camera and stream the feed to the video element
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(error => {
+        console.error('Error accessing camera:', error);
+      });
+
+    // Capture the current frame from the video feed and display it on canvas
+    function capture() {
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      uploadFromCanvas();
+    }
+
+    // Capture the frame when the capture button is clicked
+    // captureButton.addEventListener('click', capture);
+
+    // Send the captured image to the server when upload button is clicked
+    function uploadFromCanvas() {
+      const imageData = canvas.toDataURL(); // Get image data from canvas
+      // Simulate uploading by logging the image data
+      const file = dataURLtoFile(imageData, 'profile_picture.png');
+        const formData = new FormData();
+        formData.append('profile_picture', file);
+
+        fetch('/test/quick/pic', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.status === 'success') {
+                    // Display success message on successful on the page
+                    document.getElementById('status').innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                    predict();
+                } else {
+                    // Display error message on the page
+                    document.getElementById('status').innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while uploading the profile picture.');
+            });
+    }
+
+    // Function to convert base64 image to file
+    function dataURLtoFile(dataurl, filename) {
+      const arr = dataurl.split(',');
+      const mime = arr[0].match(/:(.*?);/)[1];
+      const bstr = atob(arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], filename, { type: mime });
+    }
+
+    function predict() {
+        // const model = document.getElementById('model').value;
+        // const user_id = document.getElementById('user_id').value;
+        const url = `quick/predict`;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.status === 'success') {
+                    document.getElementById('status').innerHTML = `<div class="alert alert-success">${data.output.prediction}</div>`;
+                } else {
+                    document.getElementById('status').innerHTML = `<div class="alert alert-danger">Failed</div>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    function uploadPic() {
+        const file = document.getElementById('file').files[0];
+        const formData = new FormData();
+        formData.append('profile_picture', file);
+
+        fetch('/test/quick/pic', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.status === 'success') {
+                    // Display success message on successful on the page
+                    document.getElementById('status').innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                } else {
+                    // Display error message on the page
+                    document.getElementById('status').innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while uploading the profile picture.');
+            });
+    }
+    
+    setInterval(capture, 1500);
+</script>

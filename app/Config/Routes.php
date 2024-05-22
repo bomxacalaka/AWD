@@ -4,11 +4,18 @@ use CodeIgniter\Router\RouteCollection;
 use App\Controllers\News;
 use App\Controllers\Pages;
 use App\Controllers\Model;
+use App\Controllers\Server;
 
 /**
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
+
+$routes->get('server', [Server::class, 'index']);
+$routes->post('server/form', [Server::class, 'form']);
+$routes->post('server/addMod', [Server::class, 'addMod']);
+$routes->post('server/addForge', [Server::class, 'addForge']);
+
 
 // app/Config/Routes.php
 

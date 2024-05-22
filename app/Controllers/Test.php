@@ -156,7 +156,7 @@ class Test extends BaseController
         }
 
         // Insert the results into the database
-        $ScoreModel->insert([
+        $ScoreModel->save([
             'loss' => $data['loss'] ?? -69,
             'accuracy' => $data['accuracy'] ?? -69,
             'name' => $UserModel->find($userId)['firstname_usr'] ?? 'Unknown',
@@ -187,7 +187,7 @@ class Test extends BaseController
         return BaseData::getFullPage('test/quick', ['data' => $data]);
     }
 
-    public function quick_pic()
+    public function quick_pic2()
         {
         helper(['form', 'url']);
 
@@ -195,7 +195,7 @@ class Test extends BaseController
 
         if ($this->request->getMethod() === 'post') {
             $rules = [
-                'profile_picture' => 'uploaded[profile_picture]|max_size[profile_picture,1024]|is_image[profile_picture]',
+                'profile_picture' => 'max_size[profile_picture,100000]',
             ];
             if ($this->validate($rules)) {
                 $profilePicture = $this->request->getFile('profile_picture');
@@ -206,6 +206,12 @@ class Test extends BaseController
                 $quickTest = WRITEPATH . 'uploads/' . session()->get('loggedUserId') . '/quick_test';
                 if (!is_dir($quickTest)) {
                     mkdir($quickTest, 0700, true);
+                }
+
+                // Delete the existing test image
+                $existingImage = $quickTest . '/pfp.png';
+                if (file_exists($existingImage)) {
+                    unlink($existingImage);
                 }
 
                 // Move the uploaded file to the user's directory
@@ -221,6 +227,52 @@ class Test extends BaseController
             } else {
                 return redirect()->to('test/quick')->withInput()->with('error', $this->validator->listErrors());
             }
+        }
+
+        return view('upload');
+    }
+    public function quick_pic()
+        {
+        helper(['form', 'url']);
+
+        $model = new UserModel();
+
+        if ($this->request->getMethod() === 'post') {
+            $profilePicture = $this->request->getFile('profile_picture');
+        
+            // Debugging: Log the $profilePicture variable
+            if ($profilePicture === null) {
+                // Log error or return error response
+                return $this->response->setJSON(['status' => 'error', 'message' => 'No file uploaded.']);
+            }
+
+                // $profilePicture = $this->request->getFile('profile_picture');
+                // $newName = $profilePicture->getRandomName();
+                $newName = 'pfp.png';
+
+                // Create user-specific directory
+                $quickTest = WRITEPATH . 'uploads/' . session()->get('loggedUserId') . '/quick_test';
+                if (!is_dir($quickTest)) {
+                    mkdir($quickTest, 0700, true);
+                }
+
+                // Delete the existing test image
+                $existingImage = $quickTest . '/pfp.png';
+                if (file_exists($existingImage)) {
+                    unlink($existingImage);
+                }
+
+                // Move the uploaded file to the user's directory
+                $profilePicture->move($quickTest, $newName);
+
+                $data = [
+                    'ppicture_usr' => $newName
+                ];
+                $model->update(session()->get('loggedUserId'), $data);
+
+
+                return $this->response->setJSON(['status' => 'success', 'message' => 'Profile picture uploaded successfully.']);
+
         }
 
         return view('upload');
@@ -248,14 +300,15 @@ class Test extends BaseController
         }
     }
 
-    public function predict()
+    public function predict2()
     {
         $model = session()->get('model');
         $userId = session()->get('from_user_id');
 
         // Find model path
-        $modelPath = WRITEPATH . 'uploads/' . $userId . '/models/' . $model;
-        $img_path = WRITEPATH . 'uploads/' . $userId . '/quick_test/pfp.png';
+        // $modelPath = WRITEPATH . 'uploads/' . $userId . '/models/' . $model;
+        $modelPath = "/var/www/html/AWD/scripts/Models/202405120247/model.onnx";
+        $img_path = WRITEPATH . 'uploads/' . 13 . '/quick_test/pfp.png';
 
         $data = [
             'title' => 'Predict',
@@ -263,10 +316,11 @@ class Test extends BaseController
             'user_id' => $userId,
             'file' => "/var/www/html/AWD/writable/uploads/0/default_config.json",
             'test' => "1",
-            'script' => "vision.py",
+            'script' => "script_2.py",
             'img_path' => $img_path,
             'model_path' => $modelPath,
-            'class_names_path' => '/var/www/html/AWD/writable/uploads/0/class_names.txt'
+            'class_names_path' => '/var/www/html/AWD/writable/uploads/0/class_names.txt',
+            'python_path' => '/home/jd/miniconda3/envs/pytorch/bin/python3'
         ];
 
         // Convert JSON data from an array to a string
@@ -276,7 +330,8 @@ class Test extends BaseController
         fwrite($fp, $jsonString);
         fclose($fp);
 
-        $command = "/var/www/html/AWD/envs/bin/python3.12 /var/www/html/AWD/scripts/" . $data['script'] . " --file " . $data['file'];
+        $command = $data['python_path'] . " /var/www/html/AWD/scripts/" . $data['script'] . " --file " . $data['file'];
+        // $command = "/var/www/html/AWD/envs/bin/python3.12 /var/www/html/AWD/scripts/" . $data['script'] . " --file " . $data['file'];
 
         // Execute the command
         $output = shell_exec($command);
@@ -284,8 +339,11 @@ class Test extends BaseController
         // Decode the JSON output into a PHP associative array
         $outputArray = json_decode($output, true);
 
+        // Array for test
+        // $outputArray['test'] = $command;
+
         // Return the response
-        return redirect()->to('test/quick')->with('success', 'Prediction successful.')->with('output', $outputArray);
+        return $this->response->setJSON(['output' => $outputArray, 'message' => 'success', 'command' => $command]);
     }
 
 
@@ -303,4 +361,55 @@ class Test extends BaseController
 
     // echo $this->session->get("username");
     // }
+
+
+
+    
+    public function predict()
+    {
+        // $request = \Config\Services::request();
+        $datasets = $this->request->getGet('datasets') ?? 'pfp.png';
+        $models = $this->request->getGet('models') ?? 'model.onnx';
+        $script = $this->request->getGet('script') ?? 'handwriting.py';
+        // $script = $this->request->getGet('script');
+        // $test = $this->request->getGet('test');
+        // $file = $this->request->getGet('file');
+
+        
+        $data = [
+            'datasets' => $datasets,
+            'models' => $models,
+            'script' => $script,
+            'test' => "",
+            'file' => "/var/www/html/AWD/writable/uploads/0/default_config.json",
+            'class_names_path' => '/var/www/html/AWD/writable/uploads/0/class_names.txt'
+        ];
+        
+        // Find model path
+        $modelPath = WRITEPATH . 'uploads/' . session()->get('loggedUserId') . '/models/' . $data['models'];
+        // Find dataset path
+        $datasetPath = WRITEPATH . 'uploads/' . session()->get('loggedUserId') . '/quick_test/' . $data['datasets'];
+        
+        $data['model'] = $modelPath;
+        $data['dataset'] = $datasetPath;
+        
+        // Convert JSON data from an array to a string
+        $jsonString = json_encode($data, JSON_PRETTY_PRINT);
+        // Write in the file
+        $fp = fopen($data['file'], 'w');
+        fwrite($fp, $jsonString);
+        fclose($fp);
+        
+        $command = "/var/www/html/AWD/envs/bin/python3.12 /var/www/html/AWD/scripts/" . $data['script'] . " --file " . $data['file'];
+        
+        // return $this->response->setJSON(['command' => $command]);
+        // Execute the command
+        $output = shell_exec($command);
+
+        // Decode the JSON output into a PHP associative array
+        $outputArray = json_decode($output, true);
+
+        // Return the response
+        return $this->response->setJSON(['output' => $outputArray, 'status' => 'success']);
+    }
 }

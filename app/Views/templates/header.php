@@ -139,6 +139,9 @@
               </li>
               <li><a class="dropdown-item" href="/leaderboard">Leaderboard</a></li>
               <li>
+              </li>
+              <li><a class="dropdown-item" href="/test/quick">Quick Test</a></li>
+              <li>
                 <hr class="dropdown-divider">
               </li>
               <li><a class="dropdown-item" href="/api">API (WIP) for training</a></li>
@@ -260,7 +263,7 @@
     </style>
   </head>
 
-  <script type="module">
+  <!-- <script type="module">
   import confetti from 'https://cdn.skypack.dev/canvas-confetti';
 
 const confettiButton = document.getElementById('confetti');
@@ -270,7 +273,7 @@ confettiButton.addEventListener('click', () => {
 });
 
 sessionStorage.setItem('playConfetti', 'true'); // Move this up if you only want it on certain button clicks
-</script>
+</script> -->
 
   <script type="module">
     import confetti from 'https://cdn.skypack.dev/canvas-confetti';
