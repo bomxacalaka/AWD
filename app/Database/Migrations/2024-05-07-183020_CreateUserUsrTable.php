@@ -36,18 +36,17 @@ class CreateUserUsrTable extends Migration
                 'null' => true,
             ],
             'created_time' => [
-                'type' => 'TIMESTAMP',
-                'null' => false,
-                'default' => 'null',
+                'type' => 'DATETIME',
+                'null' => true,
             ],
         ]);
 
         $this->forge->addKey('id_usr', true);
-        $this->forge->createTable('user_usr');
+        $this->forge->createTable('user_usr2');
     }
 
     public function down()
     {
-        $this->forge->dropTable('user_usr');
+        $this->forge->dropTable('user_usr2');
     }
 }

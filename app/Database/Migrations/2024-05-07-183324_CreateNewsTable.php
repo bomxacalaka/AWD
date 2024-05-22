@@ -33,11 +33,11 @@ class CreateNewsTable extends Migration
 
         $this->forge->addKey('id', true);
         $this->forge->addUniqueKey('slug'); // Adding unique index on 'slug' column
-        $this->forge->createTable('news');
+        $this->forge->createTable('news2');
     }
 
     public function down()
     {
-        $this->forge->dropTable('news');
+        $this->forge->dropTable('news2');
     }
 }
